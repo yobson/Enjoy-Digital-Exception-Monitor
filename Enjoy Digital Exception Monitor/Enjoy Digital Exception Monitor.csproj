@@ -93,6 +93,8 @@
   <ItemGroup>
     <Compile Include="Crawling.cs" />
     <Compile Include="Errors.cs" />
+    <Compile Include="GUI\Menu.cs" />
+    <Compile Include="GUI\MenuItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlackClient.cs" />
