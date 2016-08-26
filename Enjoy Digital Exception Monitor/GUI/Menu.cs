@@ -10,6 +10,7 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
     {
         private IEnumerable<MenuItem> Listings;
         private IEnumerable<string> Menus;
+        private Crawling crawl {get; set;}
         private int selected = 1;
 
         public void AddListing(MenuItem i)
