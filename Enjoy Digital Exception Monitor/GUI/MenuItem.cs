@@ -17,8 +17,19 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
         public const int Bool = 1;
         public int position;
 
-        public Crawling ChangeValue(Crawling crawl)
+        public MenuItem (string def)
         {
+            DefaltValue = def;
+        }
+
+        public MenuItem (bool def)
+        {
+            DefaltValue = def.ToString();
+        }
+
+        public Crawling SelectValue(Crawling crawl)
+        {
+            PrintMenu();
             switch (this.Type)
             {
                 case (0): //If String
@@ -37,7 +48,6 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
         {
             if (selected == position) { Console.BackgroundColor = ConsoleColor.White; Console.ForegroundColor = ConsoleColor.Black; }
             Console.WriteLine(ListingText + ": " + crawl.GetType().GetProperty(PropertyName).ToString());
-            Console.ResetColor();
             Console.ResetColor();
         }
     }
