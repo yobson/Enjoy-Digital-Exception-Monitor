@@ -38,6 +38,7 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
             if (selected == position) { Console.BackgroundColor = ConsoleColor.White; Console.ForegroundColor = ConsoleColor.Black; }
             Console.WriteLine(ListingText + ": " + crawl.GetType().GetProperty(PropertyName).ToString());
             Console.ResetColor();
+            Console.ResetColor();
         }
     }
 }
