@@ -85,5 +85,21 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
             Console.WriteLine(ListingText + ": " + crawl.GetType().GetProperty(PropertyName).GetValue(crawl));
             Console.ResetColor();
         }
+
+        public void commitValue(string value)
+        {
+            switch (Type)
+            {
+                case (0):
+                    crawl.GetType().GetProperty(PropertyName).SetValue(crawl, value);
+                    break;
+                case (1):
+                    crawl.GetType().GetProperty(PropertyName).SetValue(crawl, bool.Parse(value));
+                    break;
+                case (2):
+                    crawl.GetType().GetProperty(PropertyName).SetValue(crawl, int.Parse(value));
+                    break;
+            }
+        }
     }
 }

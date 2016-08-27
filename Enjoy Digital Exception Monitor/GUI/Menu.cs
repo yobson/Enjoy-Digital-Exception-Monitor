@@ -18,6 +18,7 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
         {
             Listings = new List<MenuItem>().AsEnumerable();
             Menus = new List<string>().AsEnumerable();
+
         }
 
         public MenuItem newListing(string listingText, int type, string propertyName, string menu)
@@ -99,9 +100,43 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
             sw.WriteLine(Directory.GetCurrentDirectory());
             foreach (MenuItem item in Listings)
             {
-                sw.WriteLine(item.crawl.GetType().GetProperty(item.PropertyName).GetValue(item.crawl));
+                sw.WriteLine(item.Menu);
+                sw.WriteLine(item.ListingText);
+                sw.WriteLine(item.Type);
+                sw.WriteLine(item.PropertyName);
+                sw.WriteLine(item.crawl.GetType().GetProperty(item.PropertyName).GetValue(item.crawl).ToString());
             }
             sw.Close();
+        }
+
+        public void load(string Filename)
+        {
+            if (!File.Exists(Filename)) { return; }
+            StreamReader sr = new StreamReader(Filename);
+            if (sr.ReadLine() != Directory.GetCurrentDirectory()) { File.Delete(Filename); return; }
+            string MenuName;
+            List<string> loadMenus = new List<string>(); ;
+            while ((MenuName = sr.ReadLine()) != null)
+            {
+                if (!loadMenus.Contains(MenuName))
+                {
+                    loadMenus.Add(MenuName);
+                    this.AddMenu(MenuName);
+                }
+
+                string listingText = sr.ReadLine();
+                int type = int.Parse(sr.ReadLine());
+                string propName = sr.ReadLine();
+                string value = sr.ReadLine();
+
+                MenuItem listing = this.newListing(listingText, type, propName, MenuName);
+                listing.commitValue(value);
+                this.AddListing(listing);
+                
+
+            }
+
+            sr.Close();
         }
     }
 }

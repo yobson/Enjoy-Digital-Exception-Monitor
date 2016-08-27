@@ -32,8 +32,12 @@ namespace Enjoy_Digital_Exception_Monitor
             menu.AddListing(menu.newListing("Username", MenuItem.String, "loginUser", "Crawler Settings"));
             menu.AddListing(menu.newListing("Password", MenuItem.String, "loginPassword", "Crawler Settings"));
             menu.AddListing(menu.newListing("Post to Slack Enabled", MenuItem.Bool, "slackBotEnabled", "Slack Configuration"));
+            menu.AddListing(menu.newListing("Slack Bot Identifier", MenuItem.String, "slackIdentifier", "Slack Configuration"));
+            menu.AddListing(menu.newListing("Slack Channel Hook URL", MenuItem.String, "slackBotHookURL", "Slack Configuration"));
 
+            menu.load("save.crawl");
             menu.RunMenu();
+            menu.save("save.crawl");
 
             Console.ReadLine();
 
