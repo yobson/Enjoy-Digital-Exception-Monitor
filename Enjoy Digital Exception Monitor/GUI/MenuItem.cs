@@ -15,17 +15,8 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
         public string DefaltValue = "";
         public const int String = 0;
         public const int Bool = 1;
+        public const int Int = 2;
         public int position;
-
-        public MenuItem (string def)
-        {
-            DefaltValue = def;
-        }
-
-        public MenuItem (bool def)
-        {
-            DefaltValue = def.ToString();
-        }
 
         public Crawling SelectValue(Crawling crawl)
         {
@@ -47,7 +38,7 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
         public void Show(Crawling crawl, int selected)
         {
             if (selected == position) { Console.BackgroundColor = ConsoleColor.White; Console.ForegroundColor = ConsoleColor.Black; }
-            Console.WriteLine(ListingText + ": " + crawl.GetType().GetProperty(PropertyName).ToString());
+            Console.WriteLine(ListingText + ": " + crawl.GetType().GetProperty(PropertyName));
             Console.ResetColor();
         }
     }

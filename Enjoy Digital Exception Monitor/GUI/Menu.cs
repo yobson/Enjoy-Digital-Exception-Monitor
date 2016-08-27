@@ -14,6 +14,12 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
         public Crawling crawl { get; set; }
         private int selected = 1;
 
+        public Menu()
+        {
+            Listings = new List<MenuItem>().AsEnumerable();
+            Menus = new List<string>().AsEnumerable();
+        }
+
         public void AddListing(MenuItem i)
         {
             List<MenuItem> l = Listings.ToList();
@@ -31,9 +37,15 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
         public void PrintMenu()
         {
             Console.Clear();
+
+            Console.WriteLine("Use Arrow Keys to select property and 'Esc' to exit\n");
+
             int position = 1;
             foreach (string menuTitle in Menus)
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\n" + menuTitle);
+                Console.ResetColor();
                 foreach (MenuItem M in Listings.Where(x => x.Menu == menuTitle))
                 {
                     M.position = position;
