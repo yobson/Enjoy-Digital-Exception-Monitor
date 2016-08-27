@@ -104,7 +104,7 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
                 sw.WriteLine(item.ListingText);
                 sw.WriteLine(item.Type);
                 sw.WriteLine(item.PropertyName);
-                sw.WriteLine(item.crawl.GetType().GetProperty(item.PropertyName).GetValue(item.crawl).ToString());
+                sw.WriteLine(crawl.GetType().GetProperty(item.PropertyName).GetValue(crawl).ToString());
             }
             sw.Close();
         }
@@ -113,7 +113,10 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
         {
             if (!File.Exists(Filename)) { return; }
             StreamReader sr = new StreamReader(Filename);
-            if (sr.ReadLine() != Directory.GetCurrentDirectory()) { File.Delete(Filename); return; }
+            if (sr.ReadLine() != Directory.GetCurrentDirectory()) { sr.Close(); File.Delete(Filename); return; }
+            Listings = new List<MenuItem>().AsEnumerable();
+            Menus = new List<string>().AsEnumerable();
+
             string MenuName;
             List<string> loadMenus = new List<string>(); ;
             while ((MenuName = sr.ReadLine()) != null)

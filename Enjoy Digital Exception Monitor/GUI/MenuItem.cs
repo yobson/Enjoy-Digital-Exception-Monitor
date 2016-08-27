@@ -91,13 +91,13 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
             switch (Type)
             {
                 case (0):
-                    crawl.GetType().GetProperty(PropertyName).SetValue(crawl, value);
+                    parent.crawl.GetType().GetProperty(PropertyName).SetValue(parent.crawl, value);
                     break;
                 case (1):
-                    crawl.GetType().GetProperty(PropertyName).SetValue(crawl, bool.Parse(value));
+                    parent.crawl.GetType().GetProperty(PropertyName).SetValue(parent.crawl, bool.Parse(value));
                     break;
                 case (2):
-                    crawl.GetType().GetProperty(PropertyName).SetValue(crawl, int.Parse(value));
+                    parent.crawl.GetType().GetProperty(PropertyName).SetValue(parent.crawl, int.Parse(value));
                     break;
             }
         }
