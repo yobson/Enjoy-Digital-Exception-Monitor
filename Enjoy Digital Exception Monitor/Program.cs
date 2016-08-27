@@ -22,10 +22,16 @@ namespace Enjoy_Digital_Exception_Monitor
 
             Menu menu = new Menu{ crawl = crawl };
             menu.AddMenu("Crawler Settings");
+            menu.AddMenu("Slack Configuration");
 
-            menu.AddListing(new MenuItem { ListingText = "Maximum Threads", Type = MenuItem.Int, PropertyName = "maxConcurrentThreads", Menu = "Crawler Settings"});
-            menu.AddListing(new MenuItem { ListingText = "Maximum Pages To Crawl", Type = MenuItem.Int, PropertyName = "maxPagesToCrawl", Menu = "Crawler Settings" });
-            menu.AddListing(new MenuItem { ListingText = "Crawl Timeout", Type = MenuItem.Int, PropertyName = "crawlTimeoutSeconds", Menu = "Crawler Settings" });
+            menu.AddListing(menu.newListing("Maximum Threads", MenuItem.Int, "maxConcurrentThreads", "Crawler Settings"));
+            menu.AddListing(menu.newListing("Maximum Pages To Crawl", MenuItem.Int, "maxPagesToCrawl", "Crawler Settings"));
+            menu.AddListing(menu.newListing("Crawler Timeout", MenuItem.Int, "crawlTimeoutSeconds", "Crawler Settings"));
+            menu.AddListing(menu.newListing("HTTP Request Timeout", MenuItem.Int, "httpRequestTimeoutInSeconds", "Crawler Settings"));
+            menu.AddListing(menu.newListing("Always Log In?", MenuItem.Bool, "alwaysLogIn", "Crawler Settings"));
+            menu.AddListing(menu.newListing("Username", MenuItem.String, "loginUser", "Crawler Settings"));
+            menu.AddListing(menu.newListing("Password", MenuItem.String, "loginPassword", "Crawler Settings"));
+            menu.AddListing(menu.newListing("Post to Slack Enabled", MenuItem.Bool, "slackBotEnabled", "Slack Configuration"));
 
             menu.RunMenu();
 

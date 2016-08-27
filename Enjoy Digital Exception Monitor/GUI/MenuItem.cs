@@ -17,28 +17,61 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
         public const int Bool = 1;
         public const int Int = 2;
         public int position;
+        public Menu parent;
 
         public Crawling SelectValue(Crawling crawl)
         {
-            //Menu parent = (Parent)this;
+            
             string newValue;
             switch (this.Type)
             {
                 case (0): //If String
+                    parent.PrintMenu();
                     Console.Write("\nNew Value: ");
                     Console.ForegroundColor = ConsoleColor.Green;
                     newValue = Console.ReadLine();
+                    Console.ResetColor();
                     crawl.GetType().GetProperty(PropertyName).SetValue(crawl, newValue);
                     break;
 
                 case (1): // If bool
-                    
+                    bool done = false;
+                    bool selected = bool.Parse(crawl.GetType().GetProperty(PropertyName).GetValue(crawl).ToString());
+                    while (!done)
+                    {
+                        parent.PrintMenu();
+                        Console.WriteLine("\n");
+                        if (selected) { Console.BackgroundColor = ConsoleColor.White; Console.ForegroundColor = ConsoleColor.Black; }
+                        Console.Write("True");
+                        Console.ResetColor();
+                        Console.Write("   ");
+                        if (!selected) { Console.BackgroundColor = ConsoleColor.White; Console.ForegroundColor = ConsoleColor.Black; }
+                        Console.WriteLine("False");
+                        Console.ResetColor();
+                        ConsoleKeyInfo key = Console.ReadKey();
+                        switch (key.Key)
+                        {
+                            case (ConsoleKey.LeftArrow):
+                                if (!selected) { selected = true; }
+                                break;
+                            case (ConsoleKey.RightArrow):
+                                if (selected) { selected = false; }
+                                break;
+                            case (ConsoleKey.Enter):
+                                crawl.GetType().GetProperty(PropertyName).SetValue(crawl, selected);
+                                done = true;
+                                break; 
+                        }
+
+                    }
                     break;
 
                 case (2): // If Int
+                    parent.PrintMenu();
                     Console.Write("\nNew Value: ");
                     Console.ForegroundColor = ConsoleColor.Green;
                     newValue = Console.ReadLine();
+                    Console.ResetColor();
                     crawl.GetType().GetProperty(PropertyName).SetValue(crawl, int.Parse(newValue));
                     break;
 

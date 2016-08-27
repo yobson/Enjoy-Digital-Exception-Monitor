@@ -20,6 +20,11 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
             Menus = new List<string>().AsEnumerable();
         }
 
+        public MenuItem newListing(string listingText, int type, string propertyName, string menu)
+        {
+            return new MenuItem { ListingText = listingText, Type = type, PropertyName = propertyName, Menu = menu, parent = this };
+        }
+
         public void AddListing(MenuItem i)
         {
             List<MenuItem> l = Listings.ToList();

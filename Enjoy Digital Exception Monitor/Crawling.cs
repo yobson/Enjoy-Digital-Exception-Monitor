@@ -23,6 +23,7 @@ namespace Enjoy_Digital_Exception_Monitor
         public int httpRequestTimeoutInSeconds { get; set; }
         public string loginUser { get; set; }
         public string loginPassword { get; set; }
+        public bool alwaysLogIn { get; set; }
 
         public bool slackBotEnabled { get; set; }
         public string slackBotHookURL { get; set; }
@@ -37,6 +38,7 @@ namespace Enjoy_Digital_Exception_Monitor
             maxPagesToCrawl = 1000;
             crawlTimeoutSeconds = 0;
             httpRequestTimeoutInSeconds = 15;
+            alwaysLogIn = false;
             loginUser = "";
             loginPassword = "";
 
