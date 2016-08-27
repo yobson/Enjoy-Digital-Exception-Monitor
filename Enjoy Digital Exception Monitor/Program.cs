@@ -23,10 +23,11 @@ namespace Enjoy_Digital_Exception_Monitor
             Menu menu = new Menu{ crawl = crawl };
             menu.AddMenu("Crawler Settings");
 
-            menu.AddListing(new MenuItem { ListingText = "Maximum Threads", DefaltValue = "10", Type = MenuItem.Int, PropertyName = "maxConcurrentThreads", Menu = "Crawler Settings"});
-            menu.AddListing(new MenuItem { ListingText = "Maximum Threads", DefaltValue = "10", Type = MenuItem.Int, PropertyName = "maxConcurrentThreads", Menu = "Crawler Settings" });
+            menu.AddListing(new MenuItem { ListingText = "Maximum Threads", Type = MenuItem.Int, PropertyName = "maxConcurrentThreads", Menu = "Crawler Settings"});
+            menu.AddListing(new MenuItem { ListingText = "Maximum Pages To Crawl", Type = MenuItem.Int, PropertyName = "maxPagesToCrawl", Menu = "Crawler Settings" });
+            menu.AddListing(new MenuItem { ListingText = "Crawl Timeout", Type = MenuItem.Int, PropertyName = "crawlTimeoutSeconds", Menu = "Crawler Settings" });
 
-            menu.PrintMenu();
+            menu.RunMenu();
 
             Console.ReadLine();
 

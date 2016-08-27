@@ -12,7 +12,7 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
         public string PropertyName { get; set; }
         public int Type { get; set; }
         public string Menu { get; set; }
-        public string DefaltValue = "";
+        //public string Value = "";
         public const int String = 0;
         public const int Bool = 1;
         public const int Int = 2;
@@ -20,17 +20,28 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
 
         public Crawling SelectValue(Crawling crawl)
         {
-            PrintMenu();
+            //Menu parent = (Parent)this;
+            string newValue;
             switch (this.Type)
             {
                 case (0): //If String
                     Console.Write("\nNew Value: ");
                     Console.ForegroundColor = ConsoleColor.Green;
-                    string newValue = Console.ReadLine();
+                    newValue = Console.ReadLine();
                     crawl.GetType().GetProperty(PropertyName).SetValue(crawl, newValue);
                     break;
-                case (1):
+
+                case (1): // If bool
+                    
                     break;
+
+                case (2): // If Int
+                    Console.Write("\nNew Value: ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    newValue = Console.ReadLine();
+                    crawl.GetType().GetProperty(PropertyName).SetValue(crawl, int.Parse(newValue));
+                    break;
+
             }
             return crawl;
         }
@@ -38,7 +49,7 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
         public void Show(Crawling crawl, int selected)
         {
             if (selected == position) { Console.BackgroundColor = ConsoleColor.White; Console.ForegroundColor = ConsoleColor.Black; }
-            Console.WriteLine(ListingText + ": " + crawl.GetType().GetProperty(PropertyName));
+            Console.WriteLine(ListingText + ": " + crawl.GetType().GetProperty(PropertyName).GetValue(crawl));
             Console.ResetColor();
         }
     }

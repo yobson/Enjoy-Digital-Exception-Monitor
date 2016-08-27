@@ -34,6 +34,34 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
             Menus = l.AsEnumerable<string>();
         }
 
+        public void RunMenu()
+        {
+            bool go = true;
+            while (go)
+            {
+                PrintMenu();
+                ConsoleKeyInfo keyPressed = Console.ReadKey();
+                switch (keyPressed.Key)
+                {
+                    case (ConsoleKey.UpArrow):
+                        if (selected > 1) { selected--; }
+                        break;
+                    case (ConsoleKey.DownArrow):
+                        if (selected < Listings.Count()) { selected++; }
+                        break;
+                    case (ConsoleKey.Enter):
+                        foreach (MenuItem item in Listings.Where(x => x.position == selected))
+                        {
+                            item.SelectValue(crawl);
+                        }
+                        break;
+                    case (ConsoleKey.Escape):
+                        go = false;
+                        break;
+                }
+            }
+        }
+
         public void PrintMenu()
         {
             Console.Clear();
@@ -66,7 +94,7 @@ namespace Enjoy_Digital_Exception_Monitor.GUI
             sw.WriteLine(Directory.GetCurrentDirectory());
             foreach (MenuItem item in Listings)
             {
-                sw.WriteLine(item.DefaltValue);
+                sw.WriteLine(item.crawl.GetType().GetProperty(item.PropertyName).GetValue(item.crawl));
             }
             sw.Close();
         }
