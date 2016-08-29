@@ -29,17 +29,47 @@ namespace Enjoy_Digital_Exception_Monitor
             menu.AddListing(menu.newListing("Crawler Timeout", MenuItem.Int, "crawlTimeoutSeconds", "Crawler Settings"));
             menu.AddListing(menu.newListing("HTTP Request Timeout", MenuItem.Int, "httpRequestTimeoutInSeconds", "Crawler Settings"));
             menu.AddListing(menu.newListing("Always Log In?", MenuItem.Bool, "alwaysLogIn", "Crawler Settings"));
+            menu.AddListing(menu.newListing("Filename", MenuItem.String, "fileName", "Crawler Settings"));
             menu.AddListing(menu.newListing("Username", MenuItem.String, "loginUser", "Crawler Settings"));
             menu.AddListing(menu.newListing("Password", MenuItem.String, "loginPassword", "Crawler Settings"));
             menu.AddListing(menu.newListing("Post to Slack Enabled", MenuItem.Bool, "slackBotEnabled", "Slack Configuration"));
             menu.AddListing(menu.newListing("Slack Bot Identifier", MenuItem.String, "slackIdentifier", "Slack Configuration"));
             menu.AddListing(menu.newListing("Slack Channel Hook URL", MenuItem.String, "slackBotHookURL", "Slack Configuration"));
 
-            menu.load("save.crawl");
-            menu.RunMenu();
-            menu.save("save.crawl");
+            menu.load(crawl.fileName);
+            bool repeat = true;
+            while (repeat)
+            {
+                if (args.Count() != 0) { repeat = false; }
+                else
+                {
+                    Console.Clear();
+                    if (args.Count() == 0)
+                    {
+                        Console.Write("Type page address to start crawling page or just hit enter to setup.\nURL: ");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        string input = Console.ReadLine();
+                        Console.ResetColor();
+                        if (input == "")
+                        {
+                            menu.RunMenu();
+                            menu.save(crawl.fileName);
+                        }
+                        else
+                        {
+                            crawl.URL = input;
+                            Console.WriteLine("Doing Crawl with slackbot " + (crawl.slackBotEnabled ? "Enabled" : "Disabled"));
+                            crawl.DoCrawl();
+                        }
+                    } else
+                    {
+                        crawl.URL = args[0];
+                        crawl.DoCrawl();
+                    }
+                }
+            }
 
-            Console.ReadLine();
+            if (args.Count() == 0) { Console.ReadLine(); }
 
             return 0;
         }

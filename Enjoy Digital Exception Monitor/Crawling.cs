@@ -24,6 +24,7 @@ namespace Enjoy_Digital_Exception_Monitor
         public string loginUser { get; set; }
         public string loginPassword { get; set; }
         public bool alwaysLogIn { get; set; }
+        public string fileName { get; set; }
 
         public bool slackBotEnabled { get; set; }
         public string slackBotHookURL { get; set; }
@@ -41,6 +42,7 @@ namespace Enjoy_Digital_Exception_Monitor
             alwaysLogIn = false;
             loginUser = "";
             loginPassword = "";
+            fileName = "save.crawl";
 
             slackBotEnabled = false;
             slackIdentifier = "[Generic Website Name] Bot";
