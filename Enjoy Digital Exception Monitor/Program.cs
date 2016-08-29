@@ -40,9 +40,6 @@ namespace Enjoy_Digital_Exception_Monitor
             bool repeat = true;
             while (repeat)
             {
-                if (args.Count() != 0) { repeat = false; }
-                else
-                {
                     Console.Clear();
                     if (args.Count() == 0)
                     {
@@ -65,8 +62,8 @@ namespace Enjoy_Digital_Exception_Monitor
                     {
                         crawl.URL = args[0];
                         crawl.DoCrawl();
+                    repeat = false;
                     }
-                }
             }
 
             if (args.Count() == 0) { Console.ReadLine(); }
