@@ -129,7 +129,7 @@ namespace Enjoy_Digital_Exception_Monitor
                 if (stats.score < 50) { Console.ForegroundColor = ConsoleColor.Red; }
                 Console.WriteLine(stats.score);
                 Console.ResetColor();
-                Console.WriteLine("Find detailed report at: https://developers.google.com/speed/pagespeed/insights/?url=" + URL);
+                Console.WriteLine("\nFind detailed report at: https://developers.google.com/speed/pagespeed/insights/?url=" + URL);
                 slackbotMessage += "Google Page Benchmark = " + stats.score + "See this link for full report:\n" + "https://developers.google.com/speed/pagespeed/insights/?url=" + URL;
             }
 
