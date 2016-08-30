@@ -7,6 +7,8 @@ using Abot.Core;
 using Abot.Crawler;
 using Abot.Poco;
 using System.Net;
+using System.Net.Http;
+using System.Web.Script.Serialization;
 
 namespace Enjoy_Digital_Exception_Monitor
 {
@@ -31,6 +33,9 @@ namespace Enjoy_Digital_Exception_Monitor
         public string slackIdentifier { get; set; }
         public string slackBotChannel { get; set; }
 
+        public bool pageSpeedEnabled { get; set; }
+        public string googleApiKey { get; set; }
+
         public bool wait = true;
 
         public void setUp()
@@ -48,6 +53,9 @@ namespace Enjoy_Digital_Exception_Monitor
             slackIdentifier = "[Generic Website Name] Bot";
             slackBotChannel = "";
             slackBotHookURL = "";
+
+            pageSpeedEnabled = false;
+            googleApiKey = "";
         }
 
         public int DoCrawl()
@@ -102,6 +110,28 @@ namespace Enjoy_Digital_Exception_Monitor
                 }
             }
 
+            Console.ResetColor();
+
+            PageSpeedEntity stats = new PageSpeedEntity();
+            if (pageSpeedEnabled)
+            {
+                Console.Write("\n");
+                Console.ForegroundColor = ConsoleColor.Blue; Console.Write("G");
+                Console.ForegroundColor = ConsoleColor.Red; Console.Write("o");
+                Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("o");
+                Console.ForegroundColor = ConsoleColor.Blue; Console.Write("g");
+                Console.ForegroundColor = ConsoleColor.Green; Console.Write("l");
+                Console.ForegroundColor = ConsoleColor.Red; Console.Write("e");
+                Console.ResetColor();
+                Console.WriteLine(" Page Benchmark");
+                stats = DoPageSpeed().GetAwaiter().GetResult();
+                Console.Write("Website Score: ");
+                if (stats.score < 50) { Console.ForegroundColor = ConsoleColor.Red; }
+                Console.WriteLine(stats.score);
+                Console.ResetColor();
+                Console.WriteLine("Find detailed report at: https://developers.google.com/speed/pagespeed/insights/?url=" + URL);
+            }
+
             if (slackBotEnabled)
             {
                 if (slackbotMessage == "")
@@ -111,11 +141,12 @@ namespace Enjoy_Digital_Exception_Monitor
                 string urlWithAccessToken = slackBotHookURL;
                 SlackClient client = new SlackClient(urlWithAccessToken);
 
-                client.PostMessage(username: slackIdentifier, text: slackbotMessage , channel:(slackBotChannel != "" ) ? null : slackBotChannel );
+                client.PostMessage(username: slackIdentifier, text: slackbotMessage, channel: (slackBotChannel != "") ? null : slackBotChannel);
             }
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Done");
+            Console.ResetColor();
 
             if (wait) { Console.Read(); }
             Console.ResetColor();
@@ -280,6 +311,20 @@ namespace Enjoy_Digital_Exception_Monitor
         {
             PageToCrawl pageToCrawl = e.PageToCrawl;
             Console.WriteLine("Did not crawl page {0} due to {1}", pageToCrawl.Uri.AbsoluteUri, e.DisallowedReason);
+        }
+
+        async Task<PageSpeedEntity> DoPageSpeed()
+        {
+            HttpClient client = new HttpClient();
+            var homeResponseMessage = await client.GetAsync("https://www.googleapis.com/pagespeedonline/v1/runPagespeed?url="+ URL + (googleApiKey == "" ? "" : ("&key={" + googleApiKey + "}")));
+            homeResponseMessage.EnsureSuccessStatusCode();
+
+            var homeValue = await homeResponseMessage.Content.ReadAsStringAsync();
+
+            var javaScriptSerializer = new JavaScriptSerializer();
+            var homePageScore = javaScriptSerializer.Deserialize<PageSpeedEntity>(homeValue);
+
+            return homePageScore;
         }
     }
 }
