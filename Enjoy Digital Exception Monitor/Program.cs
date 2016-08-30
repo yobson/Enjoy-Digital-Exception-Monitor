@@ -25,12 +25,13 @@ namespace Enjoy_Digital_Exception_Monitor
             menu.AddMenu("Slack Configuration");
             menu.AddMenu("Google Tools");
 
+            menu.AddListing(menu.newListing("Crawler Enabled", MenuItem.Bool, "crawlEnabled", "Crawler Settings"));
             menu.AddListing(menu.newListing("Maximum Threads", MenuItem.Int, "maxConcurrentThreads", "Crawler Settings"));
             menu.AddListing(menu.newListing("Maximum Pages To Crawl", MenuItem.Int, "maxPagesToCrawl", "Crawler Settings"));
             menu.AddListing(menu.newListing("Crawler Timeout", MenuItem.Int, "crawlTimeoutSeconds", "Crawler Settings"));
             menu.AddListing(menu.newListing("HTTP Request Timeout", MenuItem.Int, "httpRequestTimeoutInSeconds", "Crawler Settings"));
-            menu.AddListing(menu.newListing("Always Log In?", MenuItem.Bool, "alwaysLogIn", "Crawler Settings"));
-            menu.AddListing(menu.newListing("Filename", MenuItem.String, "fileName", "Crawler Settings"));
+            menu.AddListing(menu.newListing("Always Log In", MenuItem.Bool, "alwaysLogIn", "Crawler Settings"));
+            //menu.AddListing(menu.newListing("Filename", MenuItem.String, "fileName", "Crawler Settings"));
             menu.AddListing(menu.newListing("Username", MenuItem.String, "loginUser", "Crawler Settings"));
             menu.AddListing(menu.newListing("Password", MenuItem.String, "loginPassword", "Crawler Settings"));
             menu.AddListing(menu.newListing("Post to Slack Enabled", MenuItem.Bool, "slackBotEnabled", "Slack Configuration"));
@@ -43,37 +44,41 @@ namespace Enjoy_Digital_Exception_Monitor
             bool repeat = true;
             while (repeat)
             {
-                    Console.Clear();
-                    if (args.Count() == 0)
+                Console.Clear();
+                if (args.Count() == 0)
+                { 
+                    Console.Write("Type page address to start crawling page or just hit enter to setup.\nURL: ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    string input = Console.ReadLine();
+                    Console.ResetColor();
+                    if (input == "")
                     {
-                        Console.Write("Type page address to start crawling page or just hit enter to setup.\nURL: ");
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        string input = Console.ReadLine();
-                        Console.ResetColor();
-                        if (input == "")
-                        {
-                            menu.RunMenu();
-                            menu.save(crawl.fileName);
-                        }
-                        else
-                        {
-                            crawl.URL = input;
-                        //Console.WriteLine("Doing Crawl with slackbot " + (crawl.slackBotEnabled ? "Enabled" : "Disabled"));
-                        crawl.wait = true;
-                        crawl.DoCrawl();
-                        }
+                        menu.RunMenu();
+                        menu.save(crawl.fileName);
                     } else
                     {
-                        crawl.URL = args[0];
-                    crawl.wait = false;
-                    crawl.DoCrawl();
-                    repeat = false;
+                        crawl.URL = input;
+                        dos(crawl);
+                        Console.Read();
                     }
-            }
+                } else
+                    {
+                        crawl.URL = args[0];
+                        dos(crawl);
+                        repeat = false;
+                    }
+                }
 
             if (args.Count() == 0) { Console.ReadLine(); }
 
             return 0;
+        }
+
+        static void dos(Crawling crawl)
+        {
+            if (crawl.crawlEnabled) { crawl.DoCrawl();  }
+            if (crawl.pageSpeedEnabled) { crawl.doPageSpeed(); }
+            if (crawl.slackBotEnabled) { crawl.doSlack(); }
         }
 
     }
