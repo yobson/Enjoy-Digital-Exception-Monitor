@@ -23,7 +23,6 @@ namespace Enjoy_Digital_Exception_Monitor
             Menu menu = new Menu{ crawl = crawl };
             menu.AddMenu("Crawler Settings");
             menu.AddMenu("Slack Configuration");
-            menu.AddMenu("Google Tools");
 
             menu.AddListing(menu.newListing("Maximum Threads", MenuItem.Int, "maxConcurrentThreads", "Crawler Settings"));
             menu.AddListing(menu.newListing("Maximum Pages To Crawl", MenuItem.Int, "maxPagesToCrawl", "Crawler Settings"));
@@ -36,8 +35,6 @@ namespace Enjoy_Digital_Exception_Monitor
             menu.AddListing(menu.newListing("Post to Slack Enabled", MenuItem.Bool, "slackBotEnabled", "Slack Configuration"));
             menu.AddListing(menu.newListing("Slack Bot Identifier", MenuItem.String, "slackIdentifier", "Slack Configuration"));
             menu.AddListing(menu.newListing("Slack Channel Hook URL", MenuItem.String, "slackBotHookURL", "Slack Configuration"));
-            menu.AddListing(menu.newListing("PageSpeed Enabled", MenuItem.Bool, "pageSpeedEnabled", "Google Tools"));
-            menu.AddListing(menu.newListing("Google API Key", MenuItem.String, "googleApiKey", "Google Tools"));
 
             menu.load(crawl.fileName);
             bool repeat = true;
@@ -58,15 +55,13 @@ namespace Enjoy_Digital_Exception_Monitor
                         else
                         {
                             crawl.URL = input;
-                        //Console.WriteLine("Doing Crawl with slackbot " + (crawl.slackBotEnabled ? "Enabled" : "Disabled"));
-                        crawl.wait = true;
-                        crawl.DoCrawl();
+                            Console.WriteLine("Doing Crawl with slackbot " + (crawl.slackBotEnabled ? "Enabled" : "Disabled"));
+                            crawl.DoCrawl();
                         }
                     } else
                     {
                         crawl.URL = args[0];
-                    crawl.wait = false;
-                    crawl.DoCrawl();
+                        crawl.DoCrawl();
                     repeat = false;
                     }
             }
